@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../utils/dimens.dart';
 import '../utils/fontsTheme.dart';
 
-class MyCard extends StatelessWidget {
-  const MyCard({
+class TransactionCard extends StatelessWidget {
+  const TransactionCard({
     Key? key,
   }) : super(key: key);
 

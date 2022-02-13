@@ -1,3 +1,4 @@
+import 'package:provider/provider.dart';
 import 'package:sary_project/itemsPage.dart';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sary_project/provider/itemProvider.dart';
+import 'package:sary_project/widgets/addButton.dart';
 import 'package:sary_project/widgets/appBar.dart';
 
 import 'hiveModel/transaction.dart';
@@ -12,7 +15,7 @@ import 'utils/dimens.dart';
 import 'utils/themeData.dart';
 
 import 'widgets/inputTextField.dart';
-import 'widgets/myCard.dart';
+import 'widgets/transactionCard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +24,8 @@ void main() async {
 
   Hive.registerAdapter(TransactionAdapter());
   await Hive.openBox<Transaction>('transaction');
-
+  MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ItemProvider())]);
   runApp(const MyApp());
 }
 
@@ -61,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(
             children: [
               const Flexible(
-                flex: 6,
+                flex: 7,
                 child: Padding(
                   padding: Dimens.paddding10trl,
                   child: InputTextField(
@@ -69,10 +73,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Flexible(
-                flex: 1,
+                flex: 2,
                 child: Padding(
                   padding: Dimens.paddding10trl,
                   child: FloatingActionButton(
+                    elevation: 1,
+                    mini: true,
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white, width: 0),
+                      borderRadius: Dimens.borderRadius50all,
+                    ),
                     onPressed: () {},
                     child: Icon(
                       Icons.filter_alt_outlined,
@@ -82,7 +94,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          MyCard(),
+          TransactionCard(),
+          Expanded(
+            child: Row(
+              children: [
+                AddButton(
+                  addText: "On pound",
+                  function: () {},
+                ),
+                AddButton(
+                  addText: "Out pound",
+                  function: () {},
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

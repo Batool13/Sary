@@ -12,13 +12,7 @@ class Item extends HiveObject {
   //   "description": "6 x 320 ml",
   //   "image": ""
   // }
-  Item(
-      {required this.id,
-      required this.name,
-      required this.price,
-      required this.sku,
-      required this.description,
-      required this.image});
+  Item(this.id, this.name, this.price, this.sku, this.description, this.image);
 
   @HiveField(0)
   String id;

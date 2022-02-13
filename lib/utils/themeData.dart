@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'convertHexToColor.dart';
 import 'dimens.dart';
+import 'fontsTheme.dart';
 
 class MyThemeData {
   static ThemeData myThemeData = ThemeData(
@@ -17,8 +18,12 @@ class MyThemeData {
     scaffoldBackgroundColor: Colors.grey.shade100,
     // backgroundColor: Colors.blueGrey,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      foregroundColor: Colors.black,
-      backgroundColor: Colors.white,
+      extendedTextStyle: FontsTheme.mediumNorma,
+      elevation: 1,
+      backgroundColor: Colors.purple,
+      shape: RoundedRectangleBorder(
+        borderRadius: Dimens.borderRadius10all,
+      ),
     ),
     inputDecorationTheme: const InputDecorationTheme(
       isDense: true,

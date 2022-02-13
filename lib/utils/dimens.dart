@@ -15,9 +15,10 @@ class Dimens {
   // static const paddding10rl = EdgeInsets.only(right: 10.0, left: 10);
   static const paddding15trl =
       EdgeInsets.only(top: 15.0, right: 15.0, left: 15);
-
+  static const paddding2all = EdgeInsets.all(2.0);
   // static const paddding10brl =
   //     EdgeInsets.only(bottom: 10, right: 10.0, left: 10);
   static const borderRadius50all = BorderRadius.all(Radius.circular(50.0));
   static const borderRadius25all = BorderRadius.all(Radius.circular(25));
+  static const borderRadius10all = BorderRadius.all(Radius.circular(10));
 }
