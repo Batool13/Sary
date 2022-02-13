@@ -1,14 +1,16 @@
-import 'Widgets/titleWidget.dart';
+import 'package:sary_project/itemsPage.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:hive/hive.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sary_project/widgets/appBar.dart';
 
 import 'hiveModel/transaction.dart';
 import 'utils/dimens.dart';
 import 'utils/themeData.dart';
-import 'widgets/actionButton.dart';
+
 import 'widgets/inputTextField.dart';
 import 'widgets/myCard.dart';
 
@@ -31,15 +33,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Transaction ',
       theme: MyThemeData.myThemeData,
-      home: const MyHomePage(title: 'Transactions'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -49,15 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TitleWidget(widget: widget),
-        actions: <Widget>[
-          const ActionButton(
-            myIcon: Icons.local_offer,
-          )
-        ],
-        backgroundColor: Colors.white,
-      ),
+      appBar: buildAppBar(context, "Transaction",
+          actionFunction: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ItemPage())),
+          actionIcon: Icons.sell_outlined),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

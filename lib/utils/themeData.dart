@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'convertHexToColor.dart';
 import 'dimens.dart';
 
 class MyThemeData {
   static ThemeData myThemeData = ThemeData(
+    appBarTheme: AppBarTheme(
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black, size: 25),
+        titleTextStyle: TextStyle(
+          fontSize: 22,
+          color: ConvertHexToColor.hexStringToColor("#404040"),
+        )),
     hintColor: Colors.grey,
     scaffoldBackgroundColor: Colors.grey.shade100,
     // backgroundColor: Colors.blueGrey,
