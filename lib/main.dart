@@ -7,9 +7,10 @@ import 'package:hive/hive.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sary_project/provider/itemProvider.dart';
+import 'package:sary_project/widgets/actionButton.dart';
 import 'package:sary_project/widgets/addButton.dart';
-import 'package:sary_project/widgets/appBar.dart';
 
+import 'hiveModel/item.dart';
 import 'hiveModel/transaction.dart';
 import 'utils/dimens.dart';
 import 'utils/themeData.dart';
@@ -22,8 +23,9 @@ void main() async {
 
   await Hive.initFlutter();
 
-  Hive.registerAdapter(TransactionAdapter());
-  await Hive.openBox<Transaction>('transaction');
+  Hive.registerAdapter(ItemAdapter());
+  await Hive.openBox<Item>('item');
+
   MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => ItemProvider())]);
   runApp(const MyApp());
@@ -56,8 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context, "Transaction",
-          actionFunction: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ItemPage())),
+          actionFunction: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ItemPage())),
           actionIcon: Icons.sell_outlined),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -99,10 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               children: [
                 AddButton(
+                  heroTag: "onPound",
                   addText: "On pound",
                   function: () {},
                 ),
                 AddButton(
+                  heroTag: "outPound",
                   addText: "Out pound",
                   function: () {},
                 ),

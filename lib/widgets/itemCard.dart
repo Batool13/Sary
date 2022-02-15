@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 
+import '../hiveModel/item.dart';
+import '../provider/itemProvider.dart';
 import '../utils/dimens.dart';
 import '../utils/fontsTheme.dart';
+import 'addItemDialog.dart';
 
 class ItemCard extends StatelessWidget {
+  //   "id": 2,
+  //   "name": "Afia Corn Oil",
+  //   "price": "12.13",
+  //   "sku": "PRO-SA2",
+  //   "description": "6 x 320 ml",
+  //   "image": ""
+  // }
+
   const ItemCard({
+    required this.name,
+    required this.price,
+    required this.sku,
+    required this.description,
+    required this.image,
+    required this.item,
     Key? key,
   }) : super(key: key);
+  final String name, price, sku, description, image;
+  final Item item;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +48,7 @@ class ItemCard extends StatelessWidget {
                         height: 100,
                         color: Colors.yellow,
                         child: Image.network(
-                          "http://www.othaimmarkets.com/media/catalog/product/cache/4/image/9df78eab33525d08d6e5fb8d27136e95/5/6/561955_0.jpg",
+                          image,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -45,7 +64,7 @@ class ItemCard extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Flexible(
                       flex: 0,
                       child: SizedBox(
@@ -53,9 +72,9 @@ class ItemCard extends StatelessWidget {
                       ),
                     ),
                     Flexible(
-                      flex: 1,
+                      flex: 2,
                       child: Text(
-                        "Afia oilhjgjhfj",
+                        name,
                         style: FontsTheme.mediumNorma,
                       ),
                     ),
@@ -68,14 +87,14 @@ class ItemCard extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        "990",
+                        sku,
                         style: FontsTheme.smallNormal,
                       ),
                     ),
                     Flexible(
                       flex: 1,
                       child: Text(
-                        "990",
+                        description,
                         style: FontsTheme.smallNormal,
                       ),
                     ),
@@ -88,7 +107,7 @@ class ItemCard extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        "990",
+                        price + " SR",
                         style: FontsTheme.smallBold,
                       ),
                     ),

@@ -5,10 +5,12 @@ class AddButton extends StatelessWidget {
   const AddButton({
     required this.addText,
     required this.function,
+    required this.heroTag,
     Key? key,
   }) : super(key: key);
   final String addText;
   final VoidCallback function;
+  final String heroTag;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -21,6 +23,7 @@ class AddButton extends StatelessWidget {
             width: 350,
             height: 45,
             child: FloatingActionButton(
+              heroTag: heroTag,
               onPressed: function,
               child: Text(addText),
               elevation: 5,
