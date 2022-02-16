@@ -18,102 +18,73 @@ class TransactionCard extends StatelessWidget {
             padding: Dimens.paddding15all,
             child: Row(
               children: [
-                const Flexible(
-                  flex: 0,
-                  child: SizedBox(
-                    width: 15,
-                  ),
+                SizedBox(
+                  width: 15,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Flexible(
-                      flex: 0,
-                      child: SizedBox(
-                        height: 5,
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Container(
+                        width: 150,
+                        child: Text(
+                          "Afiaoilhjgjhfjkmkkkkkkkkkkkkkllllllllllllll",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
                       ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        "Afia oilhjgjhfj",
-                        style: FontsTheme.mediumNorma,
-                      ),
+                    SizedBox(
+                      height: 5,
                     ),
-                    Flexible(
-                      flex: 0,
-                      child: SizedBox(
-                        height: 5,
-                      ),
+                    Text(
+                      "990",
+                      style: FontsTheme.smallNormal,
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        "990",
-                        style: FontsTheme.smallNormal,
-                      ),
+                    Text(
+                      "990",
+                      style: FontsTheme.smallNormal,
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        "990",
-                        style: FontsTheme.smallNormal,
-                      ),
+                    SizedBox(
+                      height: 15,
                     ),
-                    Flexible(
-                      flex: 0,
-                      child: SizedBox(
-                        height: 15,
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        "990",
-                        style: FontsTheme.smallBold,
-                      ),
+                    Text(
+                      "990",
+                      style: FontsTheme.smallBold,
                     ),
                   ],
                 ),
-                const Flexible(
-                  flex: 1,
-                  child: SizedBox(
-                    width: 230,
-                  ),
-                ),
+                Flexible(
+                    child: SizedBox(
+                  width: 300,
+                )),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: const [
+                    Icon(
+                      false ? Icons.south : Icons.north,
+                      color: false ? Colors.green : Colors.red,
+                      size: 40,
+                    ),
                     Flexible(
-                      flex: 1,
                       child: SizedBox(
-                        height: 50,
+                        height: 30,
                       ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Icon(
-                        false ? Icons.south : Icons.north,
-                        color: false ? Colors.green : Colors.red,
-                        size: 40,
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: SizedBox(
-                        height: 50,
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        "09/9/1999",
-                        style: FontsTheme.smallBold,
-                      ),
+                    Text(
+                      "09/9/1999",
+                      style: FontsTheme.smallBold,
                     ),
                   ],
+                ),
+                SizedBox(
+                  width: 15,
                 ),
               ],
             )),

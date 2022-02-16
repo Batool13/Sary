@@ -30,7 +30,6 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
       width: 500,
       child: Card(
         child: Padding(
@@ -41,75 +40,53 @@ class ItemCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        color: Colors.yellow,
-                        child: Image.network(
-                          image,
-                          fit: BoxFit.fill,
-                        ),
+                    Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.yellow,
+                      child: Image.network(
+                        image,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ],
                 ),
-                const Flexible(
-                  flex: 0,
-                  child: SizedBox(
-                    width: 15,
-                  ),
+                SizedBox(
+                  width: 15,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                      flex: 0,
-                      child: SizedBox(
-                        height: 5,
-                      ),
+                    SizedBox(
+                      height: 5,
                     ),
-                    Flexible(
-                      flex: 2,
+                    Container(
+                      width: 150,
                       child: Text(
                         name,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         style: FontsTheme.mediumNorma,
                       ),
                     ),
-                    Flexible(
-                      flex: 0,
-                      child: SizedBox(
-                        height: 5,
-                      ),
+                    SizedBox(
+                      height: 5,
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        sku,
-                        style: FontsTheme.smallNormal,
-                      ),
+                    Text(
+                      sku,
+                      style: FontsTheme.smallNormal,
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        description,
-                        style: FontsTheme.smallNormal,
-                      ),
+                    Text(
+                      description,
+                      style: FontsTheme.smallNormal,
                     ),
-                    Flexible(
-                      flex: 0,
-                      child: SizedBox(
-                        height: 15,
-                      ),
+                    SizedBox(
+                      height: 15,
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        price + " SR",
-                        style: FontsTheme.smallBold,
-                      ),
+                    Text(
+                      price + " SR",
+                      style: FontsTheme.smallBold,
                     ),
                   ],
                 ),

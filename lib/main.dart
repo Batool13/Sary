@@ -57,6 +57,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
+        children: [
+          Flexible(
+            child: AddButton(
+              heroTag: "onPound",
+              addText: "On pound",
+              function: () {},
+            ),
+          ),
+          Flexible(
+            child: AddButton(
+              heroTag: "outPound",
+              addText: "Out pound",
+              function: () {},
+            ),
+          ),
+        ],
+      ),
       appBar: buildAppBar(context, "Transaction",
           actionFunction: () => Navigator.push(
               context, MaterialPageRoute(builder: (context) => ItemPage())),
@@ -97,22 +116,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
           TransactionCard(),
-          Expanded(
-            child: Row(
-              children: [
-                AddButton(
-                  heroTag: "onPound",
-                  addText: "On pound",
-                  function: () {},
-                ),
-                AddButton(
-                  heroTag: "outPound",
-                  addText: "Out pound",
-                  function: () {},
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );

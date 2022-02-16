@@ -13,22 +13,16 @@ class AddButton extends StatelessWidget {
   final String heroTag;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: Align(
-        alignment: FractionalOffset.bottomCenter,
-        child: Padding(
-          padding: Dimens.paddding10all,
-          child: Container(
-            width: 350,
-            height: 45,
-            child: FloatingActionButton(
-              heroTag: heroTag,
-              onPressed: function,
-              child: Text(addText),
-              elevation: 5,
-            ),
-          ),
+    return Padding(
+      padding: Dimens.paddding10all,
+      child: Container(
+        width: 350,
+        height: 45,
+        child: FloatingActionButton(
+          heroTag: heroTag,
+          onPressed: function,
+          child: Text(addText),
+          elevation: 5,
         ),
       ),
     );

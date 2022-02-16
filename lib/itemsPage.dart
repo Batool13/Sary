@@ -19,6 +19,15 @@ class ItemPage extends StatefulWidget {
 class _ItemPageState extends State<ItemPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: AddButton(
+            heroTag: "add",
+            addText: "Add Item",
+            function: () => showDialog(
+                context: context,
+                builder: (context) => ItemDialog(
+                      onClickedDone: ItemProvider().addItem,
+                    ))),
         appBar: buildAppBar(context, "Items", leadingFunction: () {
           Navigator.pop(
             context,
@@ -46,14 +55,6 @@ class _ItemPageState extends State<ItemPage> {
               ),
             ),
           ),
-          AddButton(
-              heroTag: "add",
-              addText: "Add Item",
-              function: () => showDialog(
-                  context: context,
-                  builder: (context) => ItemDialog(
-                        onClickedDone: ItemProvider().addItem,
-                      )))
         ],
       );
     } else {
@@ -124,14 +125,6 @@ class _ItemPageState extends State<ItemPage> {
               },
             ),
           ),
-          AddButton(
-              heroTag: "add",
-              addText: "Add Item",
-              function: () => showDialog(
-                  context: context,
-                  builder: (context) => ItemDialog(
-                        onClickedDone: ItemProvider().addItem,
-                      )))
         ],
       );
     }
