@@ -1,15 +1,37 @@
 import 'package:flutter/material.dart';
 
+import 'package:hive_flutter/adapters.dart';
+import 'package:sary_project/hiveModel/item.dart';
+
+import '../boxes.dart';
 import '../utils/dimens.dart';
 import '../utils/fontsTheme.dart';
 
 class TransactionCard extends StatelessWidget {
   const TransactionCard({
     Key? key,
+    required this.itemId,
+    required this.quantity,
+    required this.inboundAt,
+    required this.outboundAt,
+    required this.type,
   }) : super(key: key);
-
+  final String type;
+  final String inboundAt;
+  final String outboundAt;
+  final String itemId;
+  final String quantity;
   @override
   Widget build(BuildContext context) {
+    Boxes.getItems().listenable();
+    final box = Boxes.getItems();
+    box.containsKey(itemId);
+
+    int keyItem = int.parse(itemId);
+    Item? item = box.get(keyItem);
+    print("kmbjhfhf");
+    print(item?.name);
+
     return Container(
       height: 160,
       width: 500,
@@ -33,7 +55,7 @@ class TransactionCard extends StatelessWidget {
                       child: Container(
                         width: 150,
                         child: Text(
-                          "Afiaoilhjgjhfjkmkkkkkkkkkkkkkllllllllllllll",
+                          item!.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
@@ -43,18 +65,18 @@ class TransactionCard extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      "990",
+                      item.sku,
                       style: FontsTheme.smallNormal,
                     ),
                     Text(
-                      "990",
+                      item.description,
                       style: FontsTheme.smallNormal,
                     ),
                     SizedBox(
                       height: 15,
                     ),
                     Text(
-                      "990",
+                      item.price + " SR",
                       style: FontsTheme.smallBold,
                     ),
                   ],
@@ -66,10 +88,10 @@ class TransactionCard extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Icon(
-                      false ? Icons.south : Icons.north,
-                      color: false ? Colors.green : Colors.red,
+                      type == "inbound" ? Icons.south : Icons.north,
+                      color: type == "inbound" ? Colors.green : Colors.red,
                       size: 40,
                     ),
                     Flexible(
@@ -78,7 +100,7 @@ class TransactionCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "09/9/1999",
+                      type == "inbound" ? inboundAt : outboundAt,
                       style: FontsTheme.smallBold,
                     ),
                   ],

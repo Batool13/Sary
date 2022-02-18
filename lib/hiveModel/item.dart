@@ -12,7 +12,6 @@ class Item extends HiveObject {
   //   "description": "6 x 320 ml",
   //   "image": ""
   // }
-  // Item(this.id, this.name, this.price, this.sku, this.description, this.image);
 
   @HiveField(1)
   late String name;
@@ -28,6 +27,8 @@ class Item extends HiveObject {
 
   @HiveField(5)
   late String image;
+
+  Item();
 
   // @override
   // String toString() {

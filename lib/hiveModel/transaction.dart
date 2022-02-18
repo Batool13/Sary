@@ -12,32 +12,22 @@ class Transaction extends HiveObject {
   //     "inbound_at": "2012-02-27 11:00:00",
   //     "outbound_at": "2012-02-27 13:27:00"
   //   }
-  Transaction(
-      {required this.id,
-      required this.type,
-      required this.itemId,
-      required this.quantity,
-      required this.inbound_at,
-      required this.outbound_at});
-
-  @HiveField(0)
-  String id;
 
   @HiveField(1)
-  String type;
+  late String type;
 
   @HiveField(2)
-  String itemId;
+  late String itemId;
 
   @HiveField(3)
-  String quantity;
+  late String quantity;
 
   @HiveField(4)
-  String inbound_at;
+  late String inboundAt;
 
   @HiveField(5)
-  String outbound_at;
-
+  late String outboundAt;
+  Transaction();
   // @override
   // String toString() {
   //   return '$id: $price';

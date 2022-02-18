@@ -50,7 +50,6 @@ class ItemProvider with ChangeNotifier {
 
       // item.save();
     }
-    ;
 
     @override
     void dispose() {
