@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sary_project/hiveModel/item.dart';
+import 'package:sary_project/provider/itemProvider.dart';
 
 import '../boxes.dart';
 import '../utils/dimens.dart';

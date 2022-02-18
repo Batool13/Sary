@@ -1,23 +1,3 @@
-// import 'package:provider/provider.dart';
-// import 'package:sary_project/itemsPage.dart';
-
-// import 'package:flutter/material.dart';
-
-// import 'package:hive/hive.dart';
-
-// import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:sary_project/provider/itemProvider.dart';
-// import 'package:sary_project/widgets/actionButton.dart';
-// import 'package:sary_project/widgets/addButton.dart';
-
-// import 'hiveModel/item.dart';
-// import 'hiveModel/transaction.dart';
-// import 'utils/dimens.dart';
-// import 'utils/themeData.dart';
-
-// import 'widgets/inputTextField.dart';
-// import 'widgets/transactionCard.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -26,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sary_project/hiveModel/transaction.dart';
 import 'package:sary_project/provider/itemProvider.dart';
 import 'package:sary_project/provider/transactionsProvider.dart';
+import 'package:sary_project/transactionDetailsPage.dart';
 import 'package:sary_project/utils/dimens.dart';
 import 'package:sary_project/utils/themeData.dart';
 
@@ -34,7 +15,10 @@ import 'package:sary_project/widgets/addButton.dart';
 
 import 'package:sary_project/widgets/addTransactionDialog.dart';
 import 'package:sary_project/widgets/inputTextField.dart';
+import 'package:sary_project/widgets/slideLeft.dart';
+import 'package:sary_project/widgets/slideRight.dart';
 import 'package:sary_project/widgets/transactionCard.dart';
+import 'package:sary_project/widgets/transactionDetailCard.dart';
 
 import 'boxes.dart';
 import 'hiveModel/item.dart';
@@ -70,84 +54,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-//       floatingActionButton: Row(
-//         children: [
-//           Flexible(
-//             child: AddButton(
-//               heroTag: "onPound",
-//               addText: "On pound",
-//               function: () {},
-//             ),
-//           ),
-//           Flexible(
-//             child: AddButton(
-//               heroTag: "outPound",
-//               addText: "Out pound",
-//               function: () {},
-//             ),
-//           ),
-//         ],
-//       ),
-//       appBar: buildAppBar(context, "Transaction",
-//           actionFunction: () => Navigator.push(
-//               context, MaterialPageRoute(builder: (context) => ItemPage())),
-//           actionIcon: Icons.sell_outlined),
-//       body: Column(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         children: [
-//           Row(
-//             children: [
-//               const Flexible(
-//                 flex: 7,
-//                 child: Padding(
-//                   padding: Dimens.paddding10trl,
-//                   child: InputTextField(
-//                       addPrefixIcon: Icons.search, addHint: 'Search'),
-//                 ),
-//               ),
-//               Flexible(
-//                 flex: 2,
-//                 child: Padding(
-//                   padding: Dimens.paddding10trl,
-//                   child: FloatingActionButton(
-//                     elevation: 1,
-//                     mini: true,
-//                     foregroundColor: Colors.black,
-//                     backgroundColor: Colors.white,
-//                     shape: RoundedRectangleBorder(
-//                       side: BorderSide(color: Colors.white, width: 0),
-//                       borderRadius: Dimens.borderRadius50all,
-//                     ),
-//                     onPressed: () {},
-//                     child: Icon(
-//                       Icons.filter_alt_outlined,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//           TransactionCard(),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -166,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 function: () => showDialog(
                   context: context,
                   builder: (context) => TransactionDialog(
+                    name: Boxes.getItems().values.first.name,
                     typeFromButton: "inbound",
                     onClickedDone: TransactionProvider().addTransaction,
                   ),
@@ -179,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 function: () => showDialog(
                   context: context,
                   builder: (context) => TransactionDialog(
+                    name: Boxes.getItems().values.first.name,
                     typeFromButton: "outbound",
                     onClickedDone: TransactionProvider().addTransaction,
                   ),
@@ -264,37 +172,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 final transaction = transactions[index];
 
                 return Dismissible(
-                  background: slideLeftBackground(),
+                  background: slideRightBackground("Details"),
+                  secondaryBackground: slideLeftBackground(),
                   confirmDismiss: (DismissDirection direction) async {
-                    return await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          actions: <Widget>[
-                            TextButton.icon(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              label: const Text("DELETE",
-                                  style: TextStyle(color: Colors.red)),
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
+                    if (direction == DismissDirection.endToStart) {
+                      return await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            actions: <Widget>[
+                              TextButton.icon(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                label: const Text("DELETE",
+                                    style: TextStyle(color: Colors.red)),
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
                               ),
-                            ),
-                            TextButton.icon(
-                              onPressed: () => Navigator.of(context).pop(false),
-                              label: const Text(
-                                "CANCEL",
-                                style: TextStyle(color: Colors.green),
+                              TextButton.icon(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
+                                label: const Text(
+                                  "CANCEL",
+                                  style: TextStyle(color: Colors.green),
+                                ),
+                                icon: Icon(
+                                  Icons.cancel,
+                                  color: Colors.green,
+                                ),
                               ),
-                              icon: Icon(
-                                Icons.cancel,
-                                color: Colors.green,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => TransactionDetailsPage(
+                              transactionKey: transaction.key)));
+                    }
                   },
                   key: ObjectKey(transaction),
                   child: buildtransaction(context, transaction),
@@ -314,6 +231,14 @@ class _MyHomePageState extends State<MyHomePage> {
     BuildContext context,
     Transaction transaction,
   ) {
+    Boxes.getItems().listenable();
+    final box = Boxes.getItems();
+    box.containsKey(transaction.itemId);
+
+    int keyItem = int.parse(transaction.itemId);
+    Item? item = box.get(keyItem);
+    print("kmbjhfhf");
+    print(item?.name);
     return TransactionCard(
       type: transaction.type,
       itemId: transaction.itemId,
@@ -322,62 +247,4 @@ class _MyHomePageState extends State<MyHomePage> {
       outboundAt: transaction.outboundAt,
     );
   }
-
-  // Widget buildButtons(BuildContext context, Item item) => Row(
-  //       children: [
-  //         Expanded(
-  //           child: TextButton.icon(
-  //             label: Text('Edit'),
-  //             icon: Icon(Icons.edit),
-  //             onPressed: () => Navigator.of(context).push(
-  //               MaterialPageRoute(
-  //                 builder: (context) => ItemDialog(
-  //                   item: item,
-  //                   onClickedDone: (name, price, sku, description, image) =>
-  //                       ItemProvider().updateItem(
-  //                           item, name, price, sku, description, image),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: TextButton.icon(
-  //             label: Text('Delete'),
-  //             icon: Icon(Icons.delete),
-  //             onPressed: () => ItemProvider().deleteItem(item),
-  //           ),
-  //         )
-  //       ],
-  //     );
-
-}
-
-Widget slideLeftBackground() {
-  return Container(
-    color: Colors.red,
-    child: Align(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-          Text(
-            " Delete",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.right,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-        ],
-      ),
-      alignment: Alignment.centerRight,
-    ),
-  );
 }

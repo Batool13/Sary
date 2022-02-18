@@ -8,6 +8,8 @@ import 'package:sary_project/widgets/actionButton.dart';
 import 'package:sary_project/widgets/addButton.dart';
 import 'package:sary_project/widgets/addItemDialog.dart';
 import 'package:sary_project/widgets/itemCard.dart';
+import 'package:sary_project/widgets/slideLeft.dart';
+import 'package:sary_project/widgets/slideRight.dart';
 
 import 'boxes.dart';
 
@@ -69,7 +71,7 @@ class _ItemPageState extends State<ItemPage> {
                 final item = items[index];
 
                 return Dismissible(
-                  background: slideRightBackground(),
+                  background: slideRightBackground("Edit"),
                   secondaryBackground: slideLeftBackground(),
                   confirmDismiss: (DismissDirection direction) async {
                     if (direction == DismissDirection.endToStart) {
@@ -149,91 +151,4 @@ class _ItemPageState extends State<ItemPage> {
       item: item,
     );
   }
-
-  // Widget buildButtons(BuildContext context, Item item) => Row(
-  //       children: [
-  //         Expanded(
-  //           child: TextButton.icon(
-  //             label: Text('Edit'),
-  //             icon: Icon(Icons.edit),
-  //             onPressed: () => Navigator.of(context).push(
-  //               MaterialPageRoute(
-  //                 builder: (context) => ItemDialog(
-  //                   item: item,
-  //                   onClickedDone: (name, price, sku, description, image) =>
-  //                       ItemProvider().updateItem(
-  //                           item, name, price, sku, description, image),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: TextButton.icon(
-  //             label: Text('Delete'),
-  //             icon: Icon(Icons.delete),
-  //             onPressed: () => ItemProvider().deleteItem(item),
-  //           ),
-  //         )
-  //       ],
-  //     );
-
-}
-
-Widget slideLeftBackground() {
-  return Container(
-    color: Colors.red,
-    child: Align(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-          Text(
-            " Delete",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.right,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-        ],
-      ),
-      alignment: Alignment.centerRight,
-    ),
-  );
-}
-
-Widget slideRightBackground() {
-  return Container(
-    color: Colors.green,
-    child: Align(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Icons.edit,
-            color: Colors.white,
-          ),
-          Text(
-            " Edit",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.left,
-          ),
-        ],
-      ),
-      alignment: Alignment.centerLeft,
-    ),
-  );
 }

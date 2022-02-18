@@ -20,16 +20,19 @@ import 'itemCard.dart';
 class TransactionDialog extends StatefulWidget {
   final Transaction? transaction;
   final String? typeFromButton;
+
   final Function(String type, String itemId, String quantity, String inboundAt,
       String outboundAt) onClickedDone;
 
-  const TransactionDialog({
+  TransactionDialog({
     Key? key,
     this.transaction,
     this.typeFromButton,
+    required this.name,
     required this.onClickedDone,
   }) : super(key: key);
 
+  final String name;
   @override
   _TransactionDialogState createState() => _TransactionDialogState();
 }
@@ -39,19 +42,15 @@ class _TransactionDialogState extends State<TransactionDialog> {
 
   final quantityController = TextEditingController();
 
-  // String itemId = "";
-
-  // To show Selected Item in Text.
-  List<Item> boxn = (Boxes.getItems()).values.toList().cast<Item>();
-
-  late String selectedItem;
+  String selectedItem = "";
   int itemId = 0;
   String formattedDate = "";
+
   @override
   void initState() {
     itemId;
     formattedDate;
-    selectedItem = "";
+    selectedItem = widget.name;
 
     super.initState();
   }
