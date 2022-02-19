@@ -5,6 +5,7 @@ import 'package:sary_project/hiveModel/item.dart';
 import 'package:sary_project/provider/itemProvider.dart';
 
 import '../boxes.dart';
+import '../hiveModel/transaction.dart';
 import '../utils/dimens.dart';
 import '../utils/fontsTheme.dart';
 
@@ -24,14 +25,18 @@ class TransactionCard extends StatelessWidget {
   final String quantity;
   @override
   Widget build(BuildContext context) {
-    Boxes.getItems().listenable();
-    final box = Boxes.getItems();
-    box.containsKey(itemId);
+    Item? item = ItemProvider().getItemById(itemId);
+    String name = "";
+    String sku = "";
+    String description = "";
+    String price = "";
+    if (item != null) {
+      name = item.name;
+      sku = item.sku;
+      description = item.description;
+      price = item.price; // Safe }
 
-    int keyItem = int.parse(itemId);
-    Item? item = box.get(keyItem);
-    print("kmbjhfhf");
-    print(item?.name);
+    }
 
     return Container(
       height: 160,
@@ -56,7 +61,7 @@ class TransactionCard extends StatelessWidget {
                       child: Container(
                         width: 150,
                         child: Text(
-                          item!.name,
+                          name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
@@ -66,18 +71,18 @@ class TransactionCard extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      item.sku,
+                      sku,
                       style: FontsTheme.smallNormal,
                     ),
                     Text(
-                      item.description,
+                      description,
                       style: FontsTheme.smallNormal,
                     ),
                     SizedBox(
                       height: 15,
                     ),
                     Text(
-                      item.price + " SR",
+                      price + " SR",
                       style: FontsTheme.smallBold,
                     ),
                   ],

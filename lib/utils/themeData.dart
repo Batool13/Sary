@@ -20,7 +20,7 @@ class MyThemeData {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       extendedTextStyle: FontsTheme.mediumNorma,
       elevation: 1,
-      backgroundColor: Colors.purple,
+      backgroundColor: ConvertHexToColor.hexStringToColor("#5044B8"),
       shape: RoundedRectangleBorder(
         borderRadius: Dimens.borderRadius10all,
       ),

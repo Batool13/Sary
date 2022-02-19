@@ -5,9 +5,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sary_project/hiveModel/transaction.dart';
 
 import '../boxes.dart';
+import '../widgets/toast.dart';
 
 class TransactionProvider with ChangeNotifier {
-  get get => null;
+  final box = Boxes.getTransaction();
 
   //  {
   //     "id": 1,
@@ -27,11 +28,11 @@ class TransactionProvider with ChangeNotifier {
       ..quantity = quantity
       ..inboundAt = inboundAt
       ..outboundAt = outboundAt;
-
     final box = Boxes.getTransaction();
     box.add(transaction);
     print("from add transaction");
     print(transaction.type);
+
     // box.put("", item);
 
     // final mybox = Boxes.getTransactions();
@@ -45,6 +46,7 @@ class TransactionProvider with ChangeNotifier {
     // box.delete(transaction.key);
 
     transaction.delete();
+
     //setState(() => transactions.remove(transaction));
     notifyListeners();
   }
@@ -58,11 +60,31 @@ class TransactionProvider with ChangeNotifier {
       transaction.inboundAt = inboundAt;
       transaction.outboundAt = outboundAt;
 
-      final box = Boxes.getTransaction();
       box.put(transaction.key, transaction);
 
       // item.save();
     }
+    // getTransactionById(transactionId) {
+    //   box.containsKey(transactionId);
+
+    //   int keyTransaction = int.parse(transactionId);
+    //   Transaction? transaction = box.get(keyTransaction);
+    //   return transaction;
+
+    // late Item? item = box.get(itemId);
+    // var name = item?.name;
+    // print('Info retrieved from box: ($name) ');
+    // }
+    // getById(transactionId) {
+    //   box.containsKey(transactionId);
+
+    //   Transaction? transaction = box.get(transactionId);
+
+    //   return transaction;
+    //   // late Item? item = box.get(itemId);
+    //   // var name = item?.name;
+    //   // print('Info retrieved from box: ($name) ');
+    // }
 
     @override
     void dispose() {
@@ -70,5 +92,13 @@ class TransactionProvider with ChangeNotifier {
       super.dispose();
       notifyListeners();
     }
+  }
+
+  Transaction? getTransactionById(transactionId) {
+    box.containsKey(transactionId);
+
+    // int keyTransaction = int.parse(transactionId);
+    Transaction? transaction = box.get(transactionId);
+    return transaction;
   }
 }

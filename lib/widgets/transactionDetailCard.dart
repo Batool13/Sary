@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:sary_project/provider/transactionsProvider.dart';
 
 import '../boxes.dart';
 import '../hiveModel/item.dart';
@@ -27,22 +28,21 @@ class TransactionDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Boxes.getItems().listenable();
-    final transactionbox = Boxes.getTransaction();
+    Transaction? transaction =
+        TransactionProvider().getTransactionById(transactionKey);
 
-    Transaction? transaction = transactionbox.get(transactionKey);
+    // print("kmbjhfhf");
+    // print(transaction?.itemId);
 
-    print("kmbjhfhf");
-    print(transaction?.itemId);
+    // Boxes.getItems().listenable();
+    // final box = Boxes.getItems();
+    // box.containsKey(transaction?.itemId);
+    Item? item = ItemProvider().getItemById(transaction?.itemId);
 
-    Boxes.getItems().listenable();
-    final box = Boxes.getItems();
-    box.containsKey(transaction?.itemId);
-
-    int keyItem = int.parse(transaction!.itemId);
-    Item? item = box.get(keyItem);
-    print("kmbjhfhf");
-    print(item?.name);
+    // int keyItem = int.parse(transaction!.itemId);
+    // Item? item = box.get(keyItem);
+    // print("kmbjhfhf");
+    // print(item?.name);
 
     return Container(
       width: 500,
@@ -119,7 +119,7 @@ class TransactionDetailCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextWithLable(
-                      text: transaction.quantity,
+                      text: transaction!.quantity,
                       lable: "Quantity",
                       title: "",
                     ),
@@ -216,7 +216,7 @@ class TextWithLable extends StatelessWidget {
           ),
           Text(
             lable,
-            style: FontsTheme.XsmallGray,
+            style: FontsTheme.xsmallGray,
           ),
         ],
       ),

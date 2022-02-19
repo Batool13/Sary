@@ -23,6 +23,7 @@ class _ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) => Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AddButton(
+            addIcon: Icons.add,
             heroTag: "add",
             addText: "Add Item",
             function: () => showDialog(

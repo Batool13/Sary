@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+
 import 'package:hive_flutter/adapters.dart';
 import 'package:sary_project/hiveModel/item.dart';
 import 'package:sary_project/hiveModel/transaction.dart';
-import 'package:sary_project/provider/transactionsProvider.dart';
+
 import 'package:sary_project/utils/decoration.dart';
-import 'package:sary_project/utils/dimens.dart';
+
+import 'package:sary_project/utils/fontsTheme.dart';
 
 import '../boxes.dart';
-import '../itemsPage.dart';
-import '../provider/itemProvider.dart';
-import 'addItemDialog.dart';
-import 'buildCancelButton.dart';
-import 'buildTextField.dart';
-import 'package:intl/intl.dart';
 
-import 'itemCard.dart';
+import 'buildCancelButton.dart';
+
+import 'package:intl/intl.dart';
 
 class TransactionDialog extends StatefulWidget {
   final Transaction? transaction;
@@ -42,15 +39,18 @@ class _TransactionDialogState extends State<TransactionDialog> {
 
   final quantityController = TextEditingController();
 
-  String selectedItem = "";
-  int itemId = 0;
+  late String selectedItem;
+  late int itemId;
   String formattedDate = "";
+  late bool getSelected;
 
   @override
   void initState() {
-    itemId;
+    itemId = 0;
     formattedDate;
     selectedItem = widget.name;
+    getSelected = false;
+    print("selectedItem$selectedItem");
 
     super.initState();
   }
@@ -77,6 +77,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 8),
               Text(formattedDate),
@@ -90,15 +91,22 @@ class _TransactionDialogState extends State<TransactionDialog> {
 
                   return buildContent(items);
                 },
-              )
+              ),
+              getSelected
+                  ? Text("")
+                  : Text("required Field", style: FontsTheme.xsmallRed),
             ],
           ),
         ),
       ),
       actions: <Widget>[
         buildCancelButton(context),
-        buildAddButton(context,
-            isEditing: isEditing, itemId: itemId, formattedDate: formattedDate),
+        buildAddButton(
+          context,
+          isEditing: isEditing,
+          itemId: itemId,
+          formattedDate: formattedDate,
+        ),
       ],
     );
   }
@@ -112,18 +120,21 @@ class _TransactionDialogState extends State<TransactionDialog> {
         controller: quantityController,
       );
 
-  Widget buildAddButton(BuildContext context,
-      {required bool isEditing,
-      required int itemId,
-      required String formattedDate}) {
+  Widget buildAddButton(
+    BuildContext context, {
+    required bool isEditing,
+    required int itemId,
+    required String formattedDate,
+  }) {
     final text = isEditing ? 'Save' : 'Add';
 
     return TextButton(
       child: Text(text),
       onPressed: () async {
         final isValid = formKey.currentState!.validate();
-
-        if (isValid) {
+        print(getSelected);
+        if (isValid & getSelected) {
+          print(getSelected);
           final type = widget.typeFromButton!;
           final itemId = this.itemId.toString();
           print(itemId);
@@ -143,50 +154,36 @@ class _TransactionDialogState extends State<TransactionDialog> {
   }
 
   Widget buildContent(List<Item> items) {
-    print(items.first.key);
-    if (items.isEmpty) {
-      return Column(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Center(
-              child: Text(
-                'No items yet!',
-              ),
-            ),
-          ),
-        ],
-      );
-    } else {
-      return DropdownButton<String>(
-        value: selectedItem,
-        icon: const Icon(Icons.arrow_downward),
-        elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
-        onChanged: (value) {
-          setState(() {
-            selectedItem = value!;
+    String? name = selectedItem;
+    print(name);
+    return DropdownButton<String>(
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        setState(() {
+          name = value;
+        });
+      },
+      value: name,
+      items: items.map<DropdownMenuItem<String>>((Item value) {
+        return DropdownMenuItem<String>(
+          onTap: () {
+            setState(() {
+              itemId = value.key;
+              getSelected = true;
 
-            print(value);
-          });
-        },
-        items: items.map<DropdownMenuItem<String>>((Item value) {
-          return DropdownMenuItem<String>(
-            onTap: () {
-              setState(() {
-                itemId = value.key;
-                print(itemId);
-              });
-            },
-            value: value.name,
-            child: Text(value.name),
-          );
-        }).toList(),
-      );
-    }
+              print(itemId);
+            });
+          },
+          value: value.name,
+          child: Text(value.name),
+        );
+      }).toList(),
+    );
   }
 }

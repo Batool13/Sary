@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:sary_project/hiveModel/transaction.dart';
@@ -18,7 +17,6 @@ import 'package:sary_project/widgets/inputTextField.dart';
 import 'package:sary_project/widgets/slideLeft.dart';
 import 'package:sary_project/widgets/slideRight.dart';
 import 'package:sary_project/widgets/transactionCard.dart';
-import 'package:sary_project/widgets/transactionDetailCard.dart';
 
 import 'boxes.dart';
 import 'hiveModel/item.dart';
@@ -47,7 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Transaction ',
+      title: 'Transactions',
       theme: MyThemeData.myThemeData,
       home: MyHomePage(),
     );
@@ -66,36 +64,46 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: Row(
           children: [
             Flexible(
-              child: AddButton(
-                heroTag: "innbound",
-                addText: "In bound",
-                function: () => showDialog(
-                  context: context,
-                  builder: (context) => TransactionDialog(
-                    name: Boxes.getItems().values.first.name,
-                    typeFromButton: "inbound",
-                    onClickedDone: TransactionProvider().addTransaction,
-                  ),
-                ),
-              ),
-            ),
+                child: AddButton(
+                    addIcon: Icons.arrow_upward,
+                    heroTag: "outbound",
+                    addText: "Send",
+                    function: () {
+                      if (Boxes.getItems().isNotEmpty)
+                        showDialog(
+                          context: context,
+                          builder: (context) => TransactionDialog(
+                            name: Boxes.getItems().values.first.name.toString(),
+                            typeFromButton: "outbound",
+                            onClickedDone: TransactionProvider().addTransaction,
+                          ),
+                        );
+                      else {
+                        showDialogNoItems(context);
+                      }
+                    })),
             Flexible(
-              child: AddButton(
-                heroTag: "outbound",
-                addText: "Out bound",
-                function: () => showDialog(
-                  context: context,
-                  builder: (context) => TransactionDialog(
-                    name: Boxes.getItems().values.first.name,
-                    typeFromButton: "outbound",
-                    onClickedDone: TransactionProvider().addTransaction,
-                  ),
-                ),
-              ),
-            ),
+                child: AddButton(
+                    addIcon: Icons.arrow_downward,
+                    heroTag: "innbound",
+                    addText: "Recive",
+                    function: () {
+                      if (Boxes.getItems().isNotEmpty) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => TransactionDialog(
+                            name: Boxes.getItems().values.first.name.toString(),
+                            typeFromButton: "inbound",
+                            onClickedDone: TransactionProvider().addTransaction,
+                          ),
+                        );
+                      } else {
+                        showDialogNoItems(context);
+                      }
+                    })),
           ],
         ),
-        appBar: buildAppBar(context, "Transaction",
+        appBar: buildAppBar(context, "Transactions",
             actionFunction: () => Navigator.push(
                 context, MaterialPageRoute(builder: (context) => ItemPage())),
             actionIcon: Icons.sell_outlined),
@@ -108,6 +116,17 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       );
+
+  Future<dynamic> showDialogNoItems(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Form(
+                  child: Container(
+                child: Text("No items found"),
+              )),
+            ));
+  }
 
   Widget buildContent(List<Transaction> transactions) {
     if (transactions.isEmpty) {
@@ -231,14 +250,6 @@ class _MyHomePageState extends State<MyHomePage> {
     BuildContext context,
     Transaction transaction,
   ) {
-    Boxes.getItems().listenable();
-    final box = Boxes.getItems();
-    box.containsKey(transaction.itemId);
-
-    int keyItem = int.parse(transaction.itemId);
-    Item? item = box.get(keyItem);
-    print("kmbjhfhf");
-    print(item?.name);
     return TransactionCard(
       type: transaction.type,
       itemId: transaction.itemId,

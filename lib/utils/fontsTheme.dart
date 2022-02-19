@@ -11,6 +11,8 @@ class FontsTheme {
   static const TextStyle smallNormal = TextStyle(
     fontSize: 14,
   );
-  static const TextStyle XsmallGray =
+  static const TextStyle xsmallGray =
+      TextStyle(fontSize: 12, color: Colors.grey);
+  static const TextStyle xsmallRed =
       TextStyle(fontSize: 12, color: Colors.grey);
 }
