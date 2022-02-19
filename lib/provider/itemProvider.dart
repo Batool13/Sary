@@ -5,7 +5,6 @@ import 'package:sary_project/hiveModel/item.dart';
 import 'package:sary_project/widgets/toast.dart';
 
 import '../boxes.dart';
-import '../widgets/toastDecorator.dart';
 
 class ItemProvider with ChangeNotifier {
   final box = Boxes.getItems();
