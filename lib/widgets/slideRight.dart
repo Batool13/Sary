@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../utils/convertHexToColor.dart';
+
 Widget slideRightBackground(String text) {
   return Container(
-    color: Colors.green,
+    color: ConvertHexToColor.hexStringToColor("#5044B8"),
     child: Align(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

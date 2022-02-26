@@ -29,7 +29,10 @@ class TransactionProvider with ChangeNotifier {
       ..inboundAt = inboundAt
       ..outboundAt = outboundAt;
     final box = Boxes.getTransaction();
-    box.add(transaction);
+    box
+        .add(transaction)
+        .then((value) => Toast("Added Successfully"));
+
     print("from add transaction");
     print(transaction.type);
 
@@ -45,7 +48,7 @@ class TransactionProvider with ChangeNotifier {
     // final box = Boxes.getTransactions();
     // box.delete(transaction.key);
 
-    transaction.delete();
+    transaction.delete().then((value) => Toast("Transaction Deleted"));
 
     //setState(() => transactions.remove(transaction));
     notifyListeners();
@@ -60,7 +63,7 @@ class TransactionProvider with ChangeNotifier {
       transaction.inboundAt = inboundAt;
       transaction.outboundAt = outboundAt;
 
-      box.put(transaction.key, transaction);
+      box.put(transaction.key, transaction) .then((value) => Toast("Updated Successfully"));
 
       // item.save();
     }

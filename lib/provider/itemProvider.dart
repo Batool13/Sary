@@ -20,7 +20,7 @@ class ItemProvider with ChangeNotifier {
       ..description = description
       ..image = image;
 
-    box.add(item);
+    box.add(item).then((value) => Toast("Added Successfully"));
     // box.put("", item);
 
     // final mybox = Boxes.getTransactions();
@@ -33,7 +33,7 @@ class ItemProvider with ChangeNotifier {
     // final box = Boxes.getTransactions();
     // box.delete(transaction.key);
 
-    item.delete();
+    item.delete() .then((value) => Toast("Item Deleted"));
 
     //setState(() => transactions.remove(transaction));
     notifyListeners();
@@ -60,7 +60,7 @@ class ItemProvider with ChangeNotifier {
       item.description = description;
       item.image = image;
 
-      box.put(item.key, item);
+      box.put(item.key, item) .then((value) => Toast("Updated Successfully"));
 
       // item.save();
     }
