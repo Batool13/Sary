@@ -49,7 +49,7 @@ class TransactionDetailCard extends StatelessWidget {
       child: Card(
         child: Padding(
           padding: Dimens.paddding15all,
-          child: Column(
+          child: ListView(
             children: [
               Row(
                 children: [
@@ -180,7 +180,7 @@ class TransactionDetailCard extends StatelessWidget {
                     )
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

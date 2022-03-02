@@ -58,6 +58,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<Transaction>? transactions;
+  List<Transaction>? foundedTransactions;
+  @override
+  void initState() {
+    // TODO: implement initState
+    foundedTransactions = TransactionProvider().getTransactions();
+    print(foundedTransactions!.length);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -110,9 +120,15 @@ class _MyHomePageState extends State<MyHomePage> {
         body: ValueListenableBuilder<Box<Transaction>>(
           valueListenable: Boxes.getTransaction().listenable(),
           builder: (context, box, _) {
-            final transaction = box.values.toList().cast<Transaction>();
+            transactions = box.values.toList().cast<Transaction>();
 
-            return buildContent(transaction);
+            // setState(() {
+            //           foundTransaction = transaction;
+            //         });
+
+            // This list holds the data for the list view
+
+            return buildContent();
           },
         ),
       );
@@ -128,10 +144,63 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
   }
 
-  Widget buildContent(List<Transaction> transactions) {
-    if (transactions.isEmpty) {
-      return Column(
-        children: [
+  Widget buildContent() {
+    // if (foundTransaction.isEmpty) {
+    //   return Column(
+    //     children: [
+    //       Expanded(
+    //         flex: 5,
+    //         child: Center(
+    //           child: Text(
+    //             'No Transactions yet!',
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   );
+    // } else {
+    return Column(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Flexible(
+                  flex: 7,
+                  child: Padding(
+                    padding: Dimens.paddding10trl,
+                    child: InputTextField(
+                        function: (value) => runFilter(value),
+                        addPrefixIcon: Icons.search,
+                        addHint: 'Search'),
+                  ),
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Padding(
+                    padding: Dimens.paddding10trl,
+                    child: FloatingActionButton(
+                      elevation: 1,
+                      mini: true,
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.white, width: 0),
+                        borderRadius: Dimens.borderRadius50all,
+                      ),
+                      onPressed: () {},
+                      child: Icon(
+                        Icons.filter_alt_outlined,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+        if (transactions!.isEmpty)
           Expanded(
             flex: 5,
             child: Center(
@@ -139,56 +208,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 'No Transactions yet!',
               ),
             ),
-          ),
-        ],
-      );
-    } else {
-      return Column(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Flexible(
-                    flex: 7,
-                    child: Padding(
-                      padding: Dimens.paddding10trl,
-                      child: InputTextField(
-                          addPrefixIcon: Icons.search, addHint: 'Search'),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: Dimens.paddding10trl,
-                      child: FloatingActionButton(
-                        elevation: 1,
-                        mini: true,
-                        foregroundColor: Colors.black,
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.white, width: 0),
-                          borderRadius: Dimens.borderRadius50all,
-                        ),
-                        onPressed: () {},
-                        child: Icon(
-                          Icons.filter_alt_outlined,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
+          )
+        else
           Expanded(
             flex: 7,
             child: ListView.builder(
               padding: EdgeInsets.all(8),
-              itemCount: transactions.length,
+              itemCount: foundedTransactions!.length,
               itemBuilder: (BuildContext context, int index) {
-                final transaction = transactions[index];
+                final transaction = foundedTransactions![index];
 
                 return Dismissible(
                   background: slideRightBackground("Details"),
@@ -241,21 +269,50 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
-        ],
-      );
-    }
-  }
-
-  Widget buildtransaction(
-    BuildContext context,
-    Transaction transaction,
-  ) {
-    return TransactionCard(
-      type: transaction.type,
-      itemId: transaction.itemId,
-      quantity: transaction.quantity,
-      inboundAt: transaction.inboundAt,
-      outboundAt: transaction.outboundAt,
+      ],
     );
   }
+
+  // This function is called whenever the text field changes
+  void runFilter(String enteredKeyword) {
+    List<Transaction> results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = transactions!;
+    } else {
+      results = transactions!
+          //inboundAt outboundAt type
+          .where((name) =>
+              name.quantity.contains(enteredKeyword) ||
+              name.inboundAt.contains(enteredKeyword) ||
+              name.outboundAt.contains(enteredKeyword) ||
+              name.type.contains(enteredKeyword))
+          .toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+
+    // Refresh the UI
+    setState(() {
+      print('results.length');
+      print(results.length);
+
+      foundedTransactions = results;
+      print('transactions.length');
+      print(foundedTransactions!.length);
+      print(transactions!.length);
+    });
+  }
+}
+
+Widget buildtransaction(
+  BuildContext context,
+  Transaction transaction,
+) {
+  return TransactionCard(
+    type: transaction.type,
+    itemId: transaction.itemId,
+    quantity: transaction.quantity,
+    inboundAt: transaction.inboundAt,
+    outboundAt: transaction.outboundAt,
+  );
 }

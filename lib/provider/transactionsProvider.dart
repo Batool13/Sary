@@ -29,9 +29,7 @@ class TransactionProvider with ChangeNotifier {
       ..inboundAt = inboundAt
       ..outboundAt = outboundAt;
     final box = Boxes.getTransaction();
-    box
-        .add(transaction)
-        .then((value) => Toast("Added Successfully"));
+    box.add(transaction).then((value) => Toast("Added Successfully"));
 
     print("from add transaction");
     print(transaction.type);
@@ -63,7 +61,9 @@ class TransactionProvider with ChangeNotifier {
       transaction.inboundAt = inboundAt;
       transaction.outboundAt = outboundAt;
 
-      box.put(transaction.key, transaction) .then((value) => Toast("Updated Successfully"));
+      box
+          .put(transaction.key, transaction)
+          .then((value) => Toast("Updated Successfully"));
 
       // item.save();
     }
@@ -102,6 +102,12 @@ class TransactionProvider with ChangeNotifier {
 
     // int keyTransaction = int.parse(transactionId);
     Transaction? transaction = box.get(transactionId);
+    return transaction;
+  }
+
+  List<Transaction>? getTransactions() {
+    // int keyTransaction = int.parse(transactionId);
+    List<Transaction>? transaction = box.values.toList();
     return transaction;
   }
 }
